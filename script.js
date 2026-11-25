@@ -7,6 +7,7 @@ if(ld){if(RM||sessionStorage.getItem('mmm-ld')){ld.classList.add('done')}else{se
 /* reveals */
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.14,rootMargin:'0px 0px -6% 0px'});
 $$('.rv,.split').forEach(el=>RM?el.classList.add('in'):io.observe(el));
+const sio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){$$('.scard',en.target).forEach(c=>c.classList.add('in'));sio.unobserve(en.target)}}),{threshold:.2});$$('.sc-grid').forEach(g=>sio.observe(g));
 const hh=$('.hero .split,.phero .split');if(hh&&!RM){io.unobserve(hh);setTimeout(()=>hh.classList.add('in'),ld&&!ld.classList.contains('done')?1900:120)}
 /* counters */
 function count(el){const to=parseFloat(el.dataset.to),dec=+el.dataset.dec||0;if(RM){el.textContent=to.toFixed(dec);return}
@@ -15,14 +16,14 @@ const cio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){cou
 $$('[data-to]').forEach(el=>cio.observe(el));
 /* scroll: nav, tape progress, mobile bar, timeline, route map */
 const nav=$('.nav'),bar=$('.tapebar'),mbar=$('.mbar'),steps=$('.steps'),map=$('.rt-map'),route=$('#rm-route'),truck=$('.rm-truck');
-const rlen=route?route.getTotalLength():0;
+const rlen=route?route.getTotalLength():0;let rmax=0;
 function onScroll(){const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
  nav&&nav.classList.toggle('scrolled',y>40);bar&&bar.style.setProperty('--p',h>0?(y/h).toFixed(4):0);
  mbar&&mbar.classList.toggle('show',y>innerHeight*.6);
  if(steps){const r=steps.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.7-r.top)/r.height));steps.style.setProperty('--tp',RM?1:p.toFixed(3))}
- if(map&&route){const r=map.getBoundingClientRect(),p=RM?1:Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height*.9)));map.style.setProperty('--rp',p.toFixed(3));
-  const pt=route.getPointAtLength(rlen*p),pt2=route.getPointAtLength(Math.min(rlen,rlen*p+2));const a=Math.atan2(pt2.y-pt.y,pt2.x-pt.x)*180/Math.PI;
-  truck.setAttribute('transform',`translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) rotate(${(p>=1?-60:a).toFixed(1)}) ${Math.abs(a)>90?'scale(1,-1)':''}`)}}
+ if(map&&route){const r=map.getBoundingClientRect(),p=RM?1:Math.max(rmax,Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height*.9))));rmax=p;map.style.setProperty('--rp',p.toFixed(3));
+  const q=p*.93,pt=route.getPointAtLength(rlen*q),pt2=route.getPointAtLength(Math.min(rlen,rlen*q+2));const a=Math.atan2(pt2.y-pt.y,pt2.x-pt.x)*180/Math.PI;
+  truck.setAttribute('transform',`translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) rotate(${a.toFixed(1)}) ${Math.abs(a)>90?'scale(1,-1)':''}`)}}
 addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 /* mobile menu */
 const mb=$('.menu-btn'),mm=$('.mmenu');

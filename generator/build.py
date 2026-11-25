@@ -144,14 +144,17 @@ def marq(items, cls='marq'):
     s = ''.join(f'<span>{x}</span><i>\u2726</i>' for x in items)
     return f'<div class="{cls}" aria-hidden="true"><div class="mq-t">{s*3}</div></div>'
 
+def excerpt(t, n=230):
+    if len(t) <= 420: return t, False
+    cut = t[:n]; cut = cut[:cut.rfind(' ')]
+    return cut.rstrip(',;:') + '\u2026', True
 def rv_slides():
     out = ''
     for r in REVIEWS_LIST:
-        short = r['text'] if len(r['text']) < 420 else None
-        body = e(short) if short else e(r['pull'])
-        more = '' if short else f'<a class="sl-more" href="reviews.html#r-{slug(r["name"])}">Read {r["name"].split()[0]}\u2019s full review</a>'
+        body, cut = excerpt(r['text'])
+        more = f'<a class="sl-more" href="reviews.html#r-{slug(r["name"])}">Read {r["name"].split()[0]}\u2019s full review</a>' if cut else ''
         out += f'''<article class="slide" aria-roledescription="slide"><div class="sl-head"><span class="sl-from">FROM</span><b>{e(r["name"])}</b><span class="sl-tag">{e(r["tag"])}</span></div>
-<div class="sl-body">{stars(5)}<blockquote><p>{body.replace(chr(10),"<br>")}</p></blockquote>{more}</div><div class="sl-foot"><span class="barcode" aria-hidden="true"></span><span>Google review \u00b7 {e(r["age"])}</span></div></article>'''
+<div class="sl-body">{stars(5)}<p class="sl-pull">\u201c{e(r["pull"])}\u201d</p><blockquote><p>{e(body).replace(chr(10),"<br>")}</p></blockquote>{more}</div><div class="sl-foot"><span class="barcode" aria-hidden="true"></span><span>Google review \u00b7 {e(r["age"])}</span></div></article>'''
     return out
 def slug(n): return ''.join(c.lower() if c.isalnum() else '-' for c in n).strip('-')
 
@@ -165,12 +168,12 @@ def route_svg():
     return f'''<svg class="rmap" viewBox="0 0 340 560" role="img" aria-label="Map sketch: moves from Orange Park and Jacksonville up the coast to Savannah, Georgia">
 <defs><pattern id="rm-g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width=".5" opacity=".18"/></pattern></defs>
 <rect width="340" height="560" fill="url(#rm-g)"/>
-<path class="rm-sea" d="{coast} L340 560 L340 -10Z"/><path class="rm-coast" d="{coast}"/>
+<g transform="translate(40 0)"><path class="rm-sea" d="{coast} L400 560 L400 -10Z"/><path class="rm-coast" d="{coast}"/>
 <text class="rm-lbl" x="250" y="380" transform="rotate(-72 250 380)">ATLANTIC OCEAN</text>
-<path class="rm-state" d="M0 {P(30.71,-82.2)[1]:.0f} L{P(30.71,-81.45)[0]:.0f} {P(30.71,-81.45)[1]:.0f}"/><text class="rm-st" x="8" y="{P(30.71,-82.2)[1]-8:.0f}">GEORGIA</text><text class="rm-st" x="8" y="{P(30.71,-82.2)[1]+20:.0f}">FLORIDA</text>
+<path class="rm-state" d="M-40 {P(30.71,-82.2)[1]:.0f} L{P(30.71,-81.45)[0]:.0f} {P(30.71,-81.45)[1]:.0f}"/><text class="rm-st" x="-30" y="{P(30.71,-82.2)[1]-8:.0f}">GEORGIA</text><text class="rm-st" x="-30" y="{P(30.71,-82.2)[1]+20:.0f}">FLORIDA</text>
 <path class="rm-route-bg" d="{rt}"/><path class="rm-route" id="rm-route" d="{rt}" pathLength="1"/>
 {pin(sav,"Savannah","Long-distance move",-1)}{pin(jax,"Jacksonville","Home base",1)}{pin(op,"Orange Park","Local moves",-1)}
-<g class="rm-truck" transform="translate({op[0]:.0f} {op[1]:.0f})"><rect x="-13" y="-9" width="17" height="13" rx="2"/><path d="M4 -5h5l4 4v5H4z"/><circle cx="-7" cy="5" r="2.6"/><circle cx="8" cy="5" r="2.6"/></g></svg>'''
+<g class="rm-truck" transform="translate({op[0]:.0f} {op[1]:.0f})"><rect x="-13" y="-9" width="17" height="13" rx="2"/><path d="M4 -5h5l4 4v5H4z"/><circle cx="-7" cy="5" r="2.6"/><circle cx="8" cy="5" r="2.6"/></g></g></svg>'''
 
 def home():
     t, d = f'{NAME} | Jacksonville Movers \u00b7 4.7\u2605 from {REVIEWS} reviews', f'Jacksonville movers rated {RATING}\u2605 on Google from {REVIEWS} reviews. Local, apartment, storage, office and long-distance moves, packing, hot tubs and heavy items. Open 7 days. Call {PHONE}.'
@@ -199,7 +202,7 @@ def home():
 <div class="trust rv"><div class="tr-score"><b>{RATING}</b>{stars(4.7)}</div><div class="tr-t"><b>{REVIEWS} Google reviews</b><span>Asian-owned \u00b7 LGBTQ+ friendly</span></div>{badge()}</div></div>
 <figure class="h-art rv"><div class="label-card big"><div class="lc-head"><span>FROM: Mike\u2019s Miracle Movers</span><span class="lc-code">904\u2011710\u20111565</span></div>
 <div class="h-photo">{img('g01','The Mike\u2019s Miracle Movers box truck with three crew members in green team shirts',eager=True,sizes="(max-width:860px) 92vw, 48vw")}
-<button class="pin" style="--x:58%;--y:22%" aria-expanded="false"><span class="sr">About the truck lettering</span>{ic('plus')}<span class="pin-tip">Our number, painted right on the truck. You can\u2019t miss us.</span></button>
+<button class="pin" style="--x:90%;--y:40%" aria-expanded="false"><span class="sr">About the truck lettering</span>{ic('plus')}<span class="pin-tip">Our number, painted right on the truck. You can\u2019t miss us.</span></button>
 <button class="pin" style="--x:52%;--y:62%" aria-expanded="false"><span class="sr">About the crew</span>{ic('plus')}<span class="pin-tip">The crew, in team shirts, ready to roll.</span></button>
 <button class="pin" style="--x:16%;--y:66%" aria-expanded="false"><span class="sr">About the truck</span>{ic('plus')}<span class="pin-tip">Our own box truck, lettered with everything we do.</span></button></div>
 <div class="lc-foot"><span>TO: <b>Your new place</b></span><span class="barcode" aria-hidden="true"></span></div></div>
@@ -216,7 +219,7 @@ def home():
 <div class="tet-grid rv" aria-hidden="true"><div class="tg-truck">{tet}</div><span class="tg-cab"></span></div>
 <a class="btn sap mag rv" href="services.html#pack">{ic('wrap')}How we pack &amp; wrap</a></div></div></section>
 <section class="sec svcs" aria-labelledby="sv-h"><div class="wrap"><div class="sec-head row"><div><span class="eyebrow rv">What we move</span><h2 class="h2 split" id="sv-h"><span class="ln"><span>Whatever\u2019s going, <em>we\u2019ve got it.</em></span></span></h2></div><a class="btn line rv" href="services.html">All 10 services {ic('arrow')}</a></div>
-<div class="sc-grid">{cards}</div></div></section>
+<div class="sc-grid">{cards}</div><p class="sc-hint" aria-hidden="true">Swipe for more {ic("arrow")}</p></div></section>
 <section class="route" aria-labelledby="rt-h"><div class="wrap rt-in"><div class="rt-copy"><span class="eyebrow rv">Across town or up the coast</span><h2 class="h2 split" id="rt-h"><span class="ln"><span>Orange Park to <em>Savannah,</em> and everywhere between.</span></span></h2>
 <p class="lede rv">Most of our days are local, across Jacksonville and Orange Park. When you\u2019re leaving town, the same crew makes the long drive. Manzima Jain\u2019s family went all the way from Jacksonville to Savannah:</p>
 <blockquote class="rt-q rv"><p>\u201cHe handled our furniture and belongings with great care, and everything arrived safely.\u201d</p><cite>Manzima Jain \u00b7 Google review</cite></blockquote>
@@ -226,9 +229,9 @@ def home():
 <div class="car" data-car aria-roledescription="carousel" aria-label="Customer reviews"><h2 class="sr" id="rv-h">What customers say</h2><div class="car-track">{rv_slides()}</div>
 <div class="car-nav"><button class="prev" aria-label="Previous review">{ic('left')}</button><div class="car-dots"></div><button class="next" aria-label="Next review">{ic('arrow')}</button></div></div></div></section>
 <section class="sec teasers" aria-label="More"><div class="wrap ts-g">
-<a class="ts rv" href="work.html" style="--d:0">{img('g05','Two movers carrying a shrink-wrapped hot tub with lifting straps',small=True)}<span class="ts-l">Our Work</span><b>Real jobs, real photos {ic('arrow')}</b></a>
-<a class="ts rv" href="about.html" style="--d:1">{img('g11','Hot tub set in place on a back patio',small=True)}<span class="ts-l">About</span><b>Who we are {ic('arrow')}</b></a>
-<a class="ts rv" href="contact.html#estimate" style="--d:2">{img('g03','A delivered hot tub sitting on stone pavers',small=True)}<span class="ts-l">Contact</span><b>Get your estimate {ic('arrow')}</b></a>
+<a class="ts rv" href="work.html" style="--d:0"><span class="ts-flap"></span><span class="ts-l">Box 07 \u00b7 Our Work</span>{ic('box')}<b>Real jobs, real photos</b><span class="ts-m marker">No stock photos</span><span class="more">See the gallery {ic('arrow')}</span></a>
+<a class="ts rv" href="about.html" style="--d:1"><span class="ts-flap"></span><span class="ts-l">Box 08 \u00b7 About</span>{ic('heart')}<b>Who\u2019s behind the truck</b><span class="ts-m marker">Asian-owned \u00b7 LGBTQ+ friendly</span><span class="more">Meet us {ic('arrow')}</span></a>
+<a class="ts rv" href="contact.html#estimate" style="--d:2"><span class="ts-flap"></span><span class="ts-l">Box 09 \u00b7 Contact</span>{ic('cal')}<b>Get your estimate</b><span class="ts-m marker">Online estimates</span><span class="more">Start here {ic('arrow')}</span></a>
 </div></section>
 {cta_band()}</main>{footer()}'''
     return body
@@ -322,7 +325,7 @@ def contact():
     fld = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faqs]}
     opts = ''.join(f'<option>{html.unescape(s[1])}</option>' for s in SVC)
     return f'''{head('contact.html', t, d, crumbs('contact.html','Contact'), [fld])}<body>{nav('contact.html')}<main id="main">
-{page_hero('Contact','Let\u2019s make <em>a move.</em>','Call or text {PHONE}, or send the details below and we\u2019ll get back to you with an estimate.','g06','A storage unit neatly loaded with furniture','GET IN TOUCH')}
+{page_hero('Contact','Let\u2019s make <em>a move.</em>',f'Call or text {PHONE}, or send the details below and we\u2019ll get back to you with an estimate.','g06','A storage unit neatly loaded with furniture','GET IN TOUCH')}
 <section class="sec ct" id="estimate" aria-labelledby="ct-h"><div class="wrap ct-in"><div class="ct-info"><h2 class="h2s rv" id="ct-h">Reach us</h2>
 <a class="ct-line rv" href="tel:{TEL}"><span>{ic('phone')}</span><div><small>Call or text</small><b>{PHONE}</b></div></a>
 <div class="ct-line rv"><span>{ic('clock')}</span><div><small>Hours (Eastern)</small>{badge('sm')}{hours_table()}<p class="hol" data-hol hidden></p></div></div>
