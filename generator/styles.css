@@ -473,3 +473,7 @@ main{overflow-x:clip}.mbar{display:none}
  .loader{display:none}
  .rm-route{stroke-dashoffset:0}
 }
+.phero.rvhero{padding-top:120px}
+.h-art .tape.t1{top:-18px;left:46%;right:auto;transform:rotate(-4deg)}
+.h-art .tape.t2{left:auto;right:-22px;bottom:-12px;transform:rotate(-28deg)}
+@media (max-width:640px){.phero.rvhero{padding-top:110px}.h-art .tape.t1{left:40%}}
