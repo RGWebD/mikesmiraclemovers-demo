@@ -1,0 +1,29 @@
+# Mike's Miracle Movers, L.L.C.
+> Moving company in Jacksonville, Florida (service-area business; no storefront address published). Rated 4.7/5 from 354 Google reviews. Online estimates. Asian-owned and LGBTQ+ friendly. Truck motto: "We make it look EASY!"
+
+- Phone (call or text): (904) 710-1565
+- Hours (Eastern): Mon-Fri 6 AM-10 PM; Sat 6 AM-9 PM; Sun 8 AM-8 PM. Holiday hours may vary.
+- Service area: Jacksonville and Orange Park, FL, plus long-distance moves (customers report Jacksonville to Savannah, GA).
+- Email / website: none currently published.
+- Pricing: not published; call for an estimate.
+
+## Services
+- Local moves: Houses, townhomes and apartments across Jacksonville, Orange Park and nearby.
+- Long-distance moves: Out of town? We’ve driven Jacksonville families all the way to Savannah.
+- Apartments & condos: Stairs, elevators and tight hallways, handled.
+- Storage unit moves: Into storage, out of storage, or straight to your new place.
+- Office & commercial: Commercial and business moves: it says so right on the truck.
+- Hot tubs, pianos & heavy items: Jacuzzis, pianos and the pieces nobody else wants to lift.
+- Packing & wrapping: Moving blankets, shrink wrap and careful hands.
+- Single items & Marketplace pickups: Bought a hutch on Marketplace? We’ll grab it and bring it home.
+- Last-minute moves: Movers cancel? Deadline in two days? Call us.
+- Loading & unloading help: Rented your own truck? We’ll do the heavy lifting.
+
+## Pages
+- [Home](https://rgwebd.github.io/mikesmiraclemovers-demo/): overview, why choose us, services, long-distance route, reviews
+- [Services](https://rgwebd.github.io/mikesmiraclemovers-demo/services.html): each service and how a move works
+- [Our Work](https://rgwebd.github.io/mikesmiraclemovers-demo/work.html): photo gallery of real jobs
+- [About](https://rgwebd.github.io/mikesmiraclemovers-demo/about.html): who we are, attributes, what's on the truck
+- [Reviews](https://rgwebd.github.io/mikesmiraclemovers-demo/reviews.html): ten Google reviews quoted word for word
+- [Contact](https://rgwebd.github.io/mikesmiraclemovers-demo/contact.html): phone, estimate form (opens a text message), hours, FAQ
+- [Google listing](https://www.google.com/maps/place/Mike's+Miracle+Movers,+L.L.C./data=!4m6!3m5!1s0x88e5b436aa611997:0xbe6fd3cb3e9adc6e!8m2!3d30.2260024!4d-81.600999!16s%2Fg%2F11g6hv279f)
